@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,15 +26,19 @@ public class Student {
     )
     private Long id;
     private String name;
-    private Integer age;
     private String email;
     private LocalDate dob;
+    @Transient
+    private Integer age;
 
-    public Student(String name, Integer age, String email, LocalDate dob) {
+    public Student(String name, String email, LocalDate dob) {
         this.name = name;
-        this.age = age;
         this.email = email;
         this.dob = dob;
+    }
+
+    public Integer getAge() {
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
 }
 
